@@ -13,30 +13,53 @@ $(document).ready(function(){
 
 			}
 		},
-		dpad:{
-			buttonUp:{
-				direction: "transY",
-				operator: "-"
+		dpad:[{
+			trans: "transX",
+			operator: function(a, b, selected){
+				if(selected.transX < 99){
+					return a + b;
+				} else {
+					return selected.transX = 99;
+				};
 			},
-			buttonRight:{
-				direction: "transX",
-				operator: "+"
+			id: "buttonRight"
+		},{
+			trans: "transX",
+			operator: function(a, b, selected){
+				if(selected.transX > 0){
+					return a - b;
+				} else {
+					return selected.transX = 0;
+				};
 			},
-			buttonDown:{
-				direction: "transY",
-				operator: "+"
+			id: "buttonLeft"
+		},{
+			trans: "transY",
+			operator: function(a, b, selected){
+				if(selected.transY > 1){
+					return a - b;
+				} else {
+					return selected.transY = 1;
+				};
 			},
-			buttonLeft:{
-				direction: "transX",
-				operator: "-"
+			id: "buttonUp"
+		},{
+			trans: "transY",
+			operator: function(a, b, selected){
+				if(selected.transY < 99){
+					return a + b;
+				} else {
+					return selected.transY = 99;
+				};
 			},
-		},
+			id: "buttonDown"
+		}],
 		scaleBtn:[{
 			scale: "scaleX",
 			operator: function(a, b, selected){
 				if(selected.scaleX > 1){
 					return a - b;
-				} else if(selected.scaleX <= 1){
+				} else {
 					return selected.scaleX = 1;
 				};
 			},
@@ -44,10 +67,10 @@ $(document).ready(function(){
 		},{
 			scale: "scaleX",
 			operator: function(a, b, selected){
-				if(selected.scaleX < 99){
+				if(selected.scaleX < 100){
 					return a + b;
 				} else {
-					return selected.scaleX = 99;
+					return selected.scaleX = 100;
 				};
 			},
 			id: "scale_xUp"
@@ -64,10 +87,10 @@ $(document).ready(function(){
 		},{
 			scale: "scaleY",
 			operator: function(a, b, selected){
-				if(selected.scaleY < 99){
+				if(selected.scaleY < 100){
 					return a + b;
 				} else {
-					return selected.scaleY = 99;
+					return selected.scaleY = 100;
 				};
 			},
 			id: "scale_yUp"
@@ -145,23 +168,16 @@ $(document).ready(function(){
 
 	// change position of selected shape
 	$(".dpad_button").on("click", function(){
-		// get shape
-		const shape = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
+		// get selected shape
+		const selected = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
 		// get button id
 		const $button = `${$(this).attr("id")}`
-		// set direction and operation variables
-		const direction = shapeEditor["dpad"][$button]["direction"];
-		const operation = shapeEditor["dpad"][$button]["operator"];
-
-		if(direction === "transX" && operation === "-"){
-			shape["transX"] > 0 ? shape["transX"] -= 2 : shape["transX"] = 0
-		} else if (direction === "transX" && operation === "+"){
-			shape["transX"] < 99 ? shape["transX"] += 2 : shape["transX"] = 99
-		} else if (direction === "transY" && operation === "-"){
-			shape["transY"] > 0 ? shape["transY"] -= 2 : shape["transY"] = 0
-		} else if (direction === "transY" && operation === "+"){
-			shape["transY"] < 99 ? shape["transY"] += 2 : shape["transY"] = 99
-		}
+		// get translate button object
+		const move = shapeEditor["dpad"].find(function(item){
+			return item["id"] === $button;
+		});
+		// manipulte location of selected shape
+		selected[move["trans"]] = move.operator(selected[move["trans"]], 3, selected);
 		// Render shapes in display window
 		renderShapes(shapeEditor["shapes"]);
 
@@ -178,8 +194,7 @@ $(document).ready(function(){
 			return item["id"] === $button;
 		});
 		// manipulate size of selected shape
-		selected[size["scale"]] = size.operator(selected[size["scale"]], 1, selected);
-		console.log(selected[size["scale"]]);
+		selected[size["scale"]] = size.operator(selected[size["scale"]], 3, selected);
 		// render shapes in display window
 		renderShapes(shapeEditor["shapes"]);
 	});
