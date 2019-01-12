@@ -31,13 +31,47 @@ $(document).ready(function(){
 				operator: "-"
 			},
 		},
-		scaleBtn:{
-			downX: "height",
-			upX: "height",
-			downY: "width",
-			upY: "width"
-
-		},
+		scaleBtn:[{
+			scale: "scaleX",
+			operator: function(a, b, selected){
+				if(selected.scaleX > 1){
+					return a - b;
+				} else if(selected.scaleX <= 1){
+					return selected.scaleX = 1;
+				};
+			},
+			id: "scale_xDown"
+		},{
+			scale: "scaleX",
+			operator: function(a, b, selected){
+				if(selected.scaleX < 99){
+					return a + b;
+				} else {
+					return selected.scaleX = 99;
+				};
+			},
+			id: "scale_xUp"
+		},{
+			scale: "scaleY",
+			operator: function(a, b, selected){
+				if(selected.scaleY > 1){
+					return a - b;
+				} else {
+					return selected.scaleY = 1;
+				};
+			},
+			id: "scale_yDown"
+		},{
+			scale: "scaleY",
+			operator: function(a, b, selected){
+				if(selected.scaleY < 99){
+					return a + b;
+				} else {
+					return selected.scaleY = 99;
+				};
+			},
+			id: "scale_yUp"
+		}],
 		shapes: [],
 		shapeDefault: {
 			name: "New Shape",
@@ -136,9 +170,18 @@ $(document).ready(function(){
 	// change scale of selected shape
 	$(".circleBtn_cap").on("click", function(){
 		// get selected shape
-		const shape = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
+		const selected = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
 		// get button id
 		const $button = `${$(this).attr("id")}`;
+		// get scale button object
+		const size = shapeEditor["scaleBtn"].find(function(item){
+			return item["id"] === $button;
+		});
+		// manipulate size of selected shape
+		selected[size["scale"]] = size.operator(selected[size["scale"]], 1, selected);
+		console.log(selected[size["scale"]]);
+		// render shapes in display window
+		renderShapes(shapeEditor["shapes"]);
 	});
 
 	const addShape = function(shapeEditor, shapeValue){
