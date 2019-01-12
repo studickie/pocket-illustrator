@@ -14,31 +14,42 @@ $(document).ready(function(){
 			}
 		},
 		dpad:{
-			up: "",
-			right: "",
-			down: "",
-			left: ""
+			buttonUp:{
+				direction: "transY",
+				operator: "-"
+			},
+			buttonRight:{
+				direction: "transX",
+				operator: "+"
+			},
+			buttonDown:{
+				direction: "transY",
+				operator: "+"
+			},
+			buttonLeft:{
+				direction: "transX",
+				operator: "-"
+			},
 		},
 		scaleBtn:{
-			downX: "",
-			upX: "",
-			downY: "",
-			upY: ""
+			downX: "height",
+			upX: "height",
+			downY: "width",
+			upY: "width"
 
 		},
 		shapes: [],
 		shapeDefault: {
 			name: "New Shape",
-	        scaleX: "33",
-	        scaleY: "33",
-	        transX: "33",
-	        transY: "33",
-	        rotate: "0",
-	        radius: "0",
-	        color: "#f00",
+	        scaleX: 33,
+	        scaleY: 33,
+	        transX: 33,
+	        transY: 33,
+	        rotate: 0,
+	        radius: 0,
+	        color: "#00F",
 		},
 	};
-
 	
 	// add object to shape array
 	$("#addShape").on("click",function(){
@@ -48,6 +59,8 @@ $(document).ready(function(){
 		renderShapes(shapeEditor["shapes"]);
 		// update shapes info section
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
+		// clear input text field
+		$("#shapeName").val("");
 	});
 
 	// removes an object from shape array
@@ -58,6 +71,7 @@ $(document).ready(function(){
 		renderShapes(shapeEditor["shapes"]);
 		// update shapes info section
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
+		// re-assign checkbox true to object ahead of removes object
 	});
 
 	// event listener for info window checkbox selection
@@ -95,6 +109,38 @@ $(document).ready(function(){
 		renderShapes(shapeEditor["shapes"]);
 	});
 
+	// change position of selected shape
+	$(".dpad_button").on("click", function(){
+		// get shape
+		const shape = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
+		// get button id
+		const $button = `${$(this).attr("id")}`
+		// set direction and operation variables
+		const direction = shapeEditor["dpad"][$button]["direction"];
+		const operation = shapeEditor["dpad"][$button]["operator"];
+
+		if(direction === "transX" && operation === "-"){
+			shape["transX"] > 0 ? shape["transX"] -= 2 : shape["transX"] = 0
+		} else if (direction === "transX" && operation === "+"){
+			shape["transX"] < 99 ? shape["transX"] += 2 : shape["transX"] = 99
+		} else if (direction === "transY" && operation === "-"){
+			shape["transY"] > 0 ? shape["transY"] -= 2 : shape["transY"] = 0
+		} else if (direction === "transY" && operation === "+"){
+			shape["transY"] < 99 ? shape["transY"] += 2 : shape["transY"] = 99
+		}
+		// Render shapes in display window
+		renderShapes(shapeEditor["shapes"]);
+
+	});
+
+	// change scale of selected shape
+	$(".circleBtn_cap").on("click", function(){
+		// get selected shape
+		const shape = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
+		// get button id
+		const $button = `${$(this).attr("id")}`;
+	});
+
 	const addShape = function(shapeEditor, shapeValue){
 
 		// create unique id for shape identification within program
@@ -104,13 +150,13 @@ $(document).ready(function(){
 			id: shapeID,
 	        name:  getShapeName(shapeValue["name"]),
 	        checkbox: true,
-	        scaleX: `${shapeValue["scaleX"]}`,
-	        scaleY: `${shapeValue["scaleY"]}`,
-	        transX: `${shapeValue["transX"]}`,
-	        transY: `${shapeValue["transY"]}`,
-	        rotate: `${shapeValue["rotate"]}`,
-	        radius: `${shapeValue["radius"]}`,
-	        color: `${shapeValue["color"]}`
+	        scaleX: shapeValue["scaleX"],
+	        scaleY: shapeValue["scaleY"],
+	        transX: shapeValue["transX"],
+	        transY: shapeValue["transY"],
+	        rotate: shapeValue["rotate"],
+	        radius: shapeValue["radius"],
+	        color: shapeValue["color"]
 		});
 
 		// set newly created shape id to selected.id
@@ -134,7 +180,6 @@ $(document).ready(function(){
 	const getShapeName = function(defaultName){
 
 		const $shapeName = $("#shapeName").val()
-		console.log(defaultName);
 		// check for user specified name, if false use generic
     	return $shapeName != "" ? $shapeName : defaultName;
 	};
@@ -168,7 +213,7 @@ $(document).ready(function(){
 			.css("background-color", `${shape["color"]}`)
 			.css("width", `${shape["scaleX"]}%`)
 			.css("height", `${shape["scaleY"]}%`)
-			.css("transform", `${shape["rotate"]}`)
+			.css("transform", `rotate(${shape["rotate"]}deg)`)
 			.css("border-radius", `${shape["radius"]}`)
 			.css("left", `${shape["transX"]}%`)
 			.css("top", `${shape["transY"]}%`)

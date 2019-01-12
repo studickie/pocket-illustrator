@@ -117,51 +117,51 @@ body{
    	top: 50%;
 }
 
-#buttonUp{
+.buttonUp{
 	transform: rotate(180deg);
 	left: 33.5%;
 	box-shadow: -0.2em -0.2em 0.5em  #22222260;
 }
 
-#buttonUp:hover{
+.buttonUp:hover{
 	top: 0.5%;
 	left: 34%;
 	box-shadow: -0.25em -0.5em 1em  #22222270;
 }
 
-#buttonRight{
+.buttonRight{
 	transform: rotate(-90deg);
 	left: 67%;
 	top: 33.5%;
 	box-shadow: -0.2em 0.2em 0.5em  #22222260;
 }
 
-#buttonRight:hover{
+.buttonRight:hover{
 	left: 67.5%;
 	top: 34%;
 	box-shadow: -0.25em 0.5em 1em  #22222270;
 }
 
-#buttonDown{
+.buttonDown{
 	left: 33.5%;
 	top: 67%;
 	box-shadow: 0.2em 0.2em 0.5em  #22222260;
 }
 
-#buttonDown:hover{
+.buttonDown:hover{
 	left: 34%;
 	top: 67.5%;
 	box-shadow: 0.25em 0.5em 1em  #22222270;
 }
 
-#buttonLeft{
+.buttonLeft{
 	transform: rotate(90deg);
 	left: 0%;
 	top: 33.5%;
 	box-shadow: 0.2em -0.2em 0.5em  #22222260;
 }
 
-#buttonLeft:hover{
+.buttonLeft:hover{
 	left: 0.5%;
 	top: 34%;
 	box-shadow: 0.25em -0.5em 1em  #22222270;
@@ -273,50 +273,50 @@ body{
   	top: 0.4em;
   }
 
-#scale_xDown{
+.scale_xDown{
 	left: 0;
 	top: 35%;
 }
 
-#scale_xDown:hover{
+.scale_xDown:hover{
 	left: 0.5%;
-	top: 35.5%;
+	top: 36%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,
 				0.25em 0.5em 1em  #22222270;
 }
 
-#scale_xUp{
+.scale_xUp{
 	left: 35%;
 	top: 5%;
 }
 
-#scale_xUp:hover{
-	left: 35.5%;
+.scale_xUp:hover{
+	left: 36%;
 	top: 5.5%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,
 				0.25em 0.5em 1em  #22222270;
 }
 
-#scale_yDown{
+.scale_yDown{
 	left: 35%;
 	top: 65%;
 }
 
-#scale_yDown:hover{
-	left: 35.5%;
+.scale_yDown:hover{
+	left: 36%;
 	top: 65.5%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,
 				0.25em 0.5em 1em  #22222270;
 }
 
-#scale_yUp{
+.scale_yUp{
 	left: 68%;
 	top: 35%;
 }
 
-#scale_yUp:hover{
+.scale_yUp:hover{
 	left: 68.5%;
-	top: 35.5%;
+	top: 36%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,
 				0.25em 0.5em 1em  #22222270;
 }
