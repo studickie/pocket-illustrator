@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Shape Editor</title>
+	<link rel="stylesheet" type="text/css" href="shapeeditor.css">
+</head>
+<body>
+	
+	<div class="shapeEditor_container">
+		
+	<!--DISPLAY WINDOW SECTION-->
+		<section class="displayWindow_container">
+			<div id="displayWindow"></div>
+		</section>
+
+	<!--CONTROL SECTION-->
+		<section class="control_container">
+			<div class="control_shapeMaster">
+				<input type="text" name="shapeName" placeholder="Add Shape Name" id="shapeName">
+				<input type="color" name="shapeColor" id="shapeColor"><br>
+				<button class="shapeMaster_button" id="addShape">Add Shape</button>
+				<button class="shapeMaster_button" id="copyShape">Copy Shape</button>
+				<button class="shapeMaster_button" id="removeShape">Remove Shape</button>
+			</div>
+			<!--Directional Pad-->
+			<div class="control_dpad">
+				<div class="dpad_button" id="buttonUp">
+					<div class="dpad_buttonInner">
+						<div class="dpad_trianlge"></div>
+					</div>
+				</div>
+				<div class="dpad_button" id="buttonRight">
+					<div class="dpad_buttonInner">
+						<div class="dpad_trianlge"></div>
+					</div>
+				</div>
+				<div class="dpad_button" id="buttonDown">
+					<div class="dpad_buttonInner">
+						<div class="dpad_trianlge"></div>
+					</div>
+				</div>
+				<div class="dpad_button" id="buttonLeft">
+					<div class="dpad_buttonInner">
+						<div class="dpad_trianlge"></div>
+					</div>
+				</div>
+			</div>
+			<!--Rotary Knobs-->
+			<div class="control_knobs">
+				<div class="knob_container">
+					<div class="knob_outterRing">
+						<div class="knob_capRing">
+							<div class="knob_cap">
+								<div class="knob_indicator"></div>
+							</div>
+						</div>
+					</div>
+					<div class="title"><p>Rotation</p></div>
+				</div>
+				<div class="knob_container">
+					<div class="knob_outterRing">
+						<div class="knob_capRing">
+							<div class="knob_cap">
+								<div class="knob_indicator"></div>
+							</div>
+						</div>
+					</div>
+					<div class="title"><p>Radius</p></div>
+				</div>
+			</div>
+			<!--Circular Buttons-->
+			<div class="circleBtn_container">
+				<div class="circleBtn_cap" id="scale_xDown">
+					<div class="circleBtn_neg"></div>
+				</div>
+				<div class="circleBtn_cap" id="scale_xUp">
+					<div class="circleBtn_pos"></div>
+				</div>
+				<div class="circleBtn_cap" id="scale_yDown">
+					<div class="circleBtn_neg"></div>
+				</div>
+				<div class="circleBtn_cap" id="scale_yUp">
+					<div class="circleBtn_pos"></div>
+				</div>
+			</div>
+		</section>
+
+	<!--INFRO WINDOW SECTION-->
+		<section class="infoWindow_container">
+			<div id="infoWindow"></div>
+		</section>
+	</div>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="shapeeditor.js"></script>
+
+</body>
+</html>

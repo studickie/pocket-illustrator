@@ -1,0 +1,342 @@
+body{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.shapeEditor_container{
+	width: 33em;
+	height: 50em;
+	background-color: limegreen;
+	border-radius: 2%;
+	display: grid;
+	grid-template-areas: "displayWindow" "control" "infoWindow";
+	justify-content: center;
+	margin-top: 1em;
+}
+
+/* --> DISPLAY WINDOW SECTION */
+.displayWindow_container{
+	grid-area: displayWindow;
+	width: 30em;
+	height: 24em;
+	background-color: #333;
+	margin-top: 1em;
+}
+
+#displayWindow{
+	width: 22em;
+	height: 22em;
+	overflow: hidden;
+	background-color: white;
+	position: relative;
+	left: 4em;
+	top: 1em;
+}
+
+/* --> CONTROL SECTION */
+.control_container{
+	grid-area: control;
+	display: grid;
+	grid-template-areas: 
+		"master master master"
+		"dpad knobs scale";
+	justify-content: center;
+	align-content: space-between;
+	width: 30em;
+}
+
+/* Shape Master Buttons */
+.control_shapeMaster{
+	grid-area: master;
+	align-self: start;
+}
+
+#shapeName{
+	width: 30em;
+	height: 2em;
+	padding: 0.25em;
+	border: none;
+}
+
+.shapeMaster_button{
+	width: 32.5%;
+	margin-top: 0.25em;
+	padding: 0.5em;
+}
+
+/* Control Directional Pad */
+.control_dpad{
+	grid-area: dpad;
+	width: 8em;
+	height: 8em;
+	position: relative;
+}
+
+.dpad_button{
+	background-image: linear-gradient(to bottom, #181818, #484848);
+	display: inline-block;
+	height: 30%;
+	width: 30%;
+    border-radius: 0 0 10% 10%;
+	position: absolute;
+}
+
+.dpad_button:before{
+	border-bottom: 0.8em solid #080808;
+	border-right: 0.8em solid transparent;
+	border-left: 0.8em solid transparent;
+	content: "";
+    width: 33%;
+    height: 0;
+    position: absolute;
+    left: 0;
+    top: -13px;
+}
+
+.dpad_buttonInner{
+	width: 82%;
+	height: 82%;
+	background-image: linear-gradient(#22222270, #555);
+	position: absolute;
+	top: 9%;
+	left: 9%;
+	border-radius: 15%;
+}
+
+.dpad_trianlge{
+   	width: 0;
+   	height: 0;
+   	border-left: 0.5em solid transparent;
+   	border-right: 0.5em solid transparent;
+   	border-top: 0.5em solid #616161;
+   	position: absolute;
+   	left: 25%;
+   	top: 50%;
+}
+
+#buttonUp{
+	transform: rotate(180deg);
+	left: 33.5%;
+	box-shadow: -0.2em -0.2em 0.5em  #22222260;
+}
+
+#buttonUp:hover{
+	top: 0.5%;
+	left: 34%;
+	box-shadow: -0.25em -0.5em 1em  #22222270;
+}
+
+#buttonRight{
+	transform: rotate(-90deg);
+	left: 67%;
+	top: 33.5%;
+	box-shadow: -0.2em 0.2em 0.5em  #22222260;
+}
+
+#buttonRight:hover{
+	left: 67.5%;
+	top: 34%;
+	box-shadow: -0.25em 0.5em 1em  #22222270;
+}
+
+#buttonDown{
+	left: 33.5%;
+	top: 67%;
+	box-shadow: 0.2em 0.2em 0.5em  #22222260;
+}
+
+#buttonDown:hover{
+	left: 34%;
+	top: 67.5%;
+	box-shadow: 0.25em 0.5em 1em  #22222270;
+}
+
+#buttonLeft{
+	transform: rotate(90deg);
+	left: 0%;
+	top: 33.5%;
+	box-shadow: 0.2em -0.2em 0.5em  #22222260;
+}
+
+#buttonLeft:hover{
+	left: 0.5%;
+	top: 34%;
+	box-shadow: 0.25em -0.5em 1em  #22222270;
+}
+
+/* Control Knobs */
+.knob_container{
+	grid-area: knobs;
+	width: 5em;
+	height: 5em;
+	/* background-color: #EEE; */
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.knob_outterRing{
+	width: 62.5%;
+	height: 62.5%;
+	background-image: linear-gradient(150deg, #777, #222);
+	border-radius: 50%;
+	box-shadow: 0.2em 0.2em 0.5em  #22222260;
+	position: relative;
+}
+
+.knob_capRing{
+	width: 80%;
+	height: 80%;
+	background-color: #222;
+	border-radius: 50%;
+	position: absolute;
+	left: 10%;
+	top: 10%;
+}
+
+.knob_cap{
+	width: 90%;
+	height: 90%;
+	background-image: radial-gradient(circle, #EEE, #DDD, #555);
+	border-radius: 50%;
+	position: absolute;
+	left: 5%;
+	top: 5%;
+}
+
+.knob_indicator{
+	width: 6%;
+	height: 22%;
+	background-image: linear-gradient(0deg, #555, #222 70%);
+	border-radius: 0 0 25% 25%;
+	position: absolute;
+	left: 47.5%;
+}
+	
+.title{
+		
+}
+
+.title p{
+	margin: 0;
+	padding: 0;
+}
+
+/* Control Circular Buttons */
+.circleBtn_container{
+	width: 8em;
+	height: 8em;
+	position: relative;
+}
+
+.circleBtn_cap{
+	width: 33%;
+	height: 27.5%;
+	background-image: radial-gradient(at top left, #777, #272727);
+	border-radius: 50%;
+	transform: skew(-7deg);
+	box-shadow: 0.12em 0.25em 0 0.05em #171717,
+				0.4em 0.5em 0.5em  #22222260;
+	position: absolute;
+}
+
+.circleBtn_neg{
+	width: 50%;
+	height: 15%;
+	background-color: red;
+	position: absolute; 
+	left: 23%;
+	top: 40%;
+}
+
+.circleBtn_pos{
+	width: 0.4em;
+	height: 1.2em;
+	background-color: red;
+	position: absolute;
+	left: 42%;
+	top: 22%;
+}
+
+.circleBtn_pos:after {
+   	background: red;
+   	content: "";
+	width: 1.2em;
+	height: 0.4em;
+	position: absolute;
+  	left: -0.4em;
+  	top: 0.4em;
+  }
+
+#scale_xDown{
+	left: 0;
+	top: 35%;
+}
+
+#scale_xDown:hover{
+	left: 0.5%;
+	top: 35.5%;
+	box-shadow: 0.12em 0.25em 0 0.05em #171717,
+				0.25em 0.5em 1em  #22222270;
+}
+
+#scale_xUp{
+	left: 35%;
+	top: 5%;
+}
+
+#scale_xUp:hover{
+	left: 35.5%;
+	top: 5.5%;
+	box-shadow: 0.12em 0.25em 0 0.05em #171717,
+				0.25em 0.5em 1em  #22222270;
+}
+
+#scale_yDown{
+	left: 35%;
+	top: 65%;
+}
+
+#scale_yDown:hover{
+	left: 35.5%;
+	top: 65.5%;
+	box-shadow: 0.12em 0.25em 0 0.05em #171717,
+				0.25em 0.5em 1em  #22222270;
+}
+
+#scale_yUp{
+	left: 68%;
+	top: 35%;
+}
+
+#scale_yUp:hover{
+	left: 68.5%;
+	top: 35.5%;
+	box-shadow: 0.12em 0.25em 0 0.05em #171717,
+				0.25em 0.5em 1em  #22222270;
+}
+
+/* --> INFOR WINDOW SECTION */
+.infoWindow_container{
+	grid-area: infoWindow;
+	width: 30em;
+	height: 8em;
+	background-color: #333;
+	align-self: end;
+	margin-bottom: 1em;
+}
+
+#infoWindow{
+	width: 22em;
+	height: 7.5em;
+	position: relative;
+	left: 4em;
+	top: 0.25em;
+	overflow: scroll;
+	color: white;
+}
