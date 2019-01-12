@@ -85,6 +85,16 @@ $(document).ready(function(){
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
 	});
 
+	// change color of selected shape
+	$("#shapeColor").on("input", function(){
+		// get selected shape
+		const selectedShape = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
+		// update shape color value
+		selectedShape["color"] = $(this).val();
+		// render shape with new color
+		renderShapes(shapeEditor["shapes"]);
+	});
+
 	const addShape = function(shapeEditor, shapeValue){
 
 		// create unique id for shape identification within program
