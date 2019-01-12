@@ -26,14 +26,24 @@ $(document).ready(function(){
 			upY: ""
 
 		},
-		shapes: []
+		shapes: [],
+		shapeDefault: {
+			name: "New Shape",
+	        scaleX: "33",
+	        scaleY: "33",
+	        transX: "33",
+	        transY: "33",
+	        rotate: "0",
+	        radius: "0",
+	        color: "#f00",
+		},
 	};
 
 	
 	// add object to shape array
 	$("#addShape").on("click",function(){
 		// add new shape to shapes array
-		addShape(shapeEditor);
+		addShape(shapeEditor, shapeEditor["shapeDefault"]);
 		// update shapes in display window
 		renderShapes(shapeEditor["shapes"]);
 		// update shapes info section
@@ -54,32 +64,47 @@ $(document).ready(function(){
 	$("#infoWindow").on("mousedown", "input", function(){
 		// get id from selected checkbox
 		const $clicked = $(this).attr("id");
+		// set selected shape
+		const selectedShape = getSelectedShape(shapeEditor["shapes"], $clicked);
+		shapeEditor["selected"]["id"] = selectedShape["id"];
 		// set checkbox value of selected shape
 		setSelectedCheckbox(shapeEditor["shapes"], $clicked);
 		// update shape info section
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
 	});
 
+	// copy and add an object
+	$("#copyShape").on("click", function(){
+		// get item selected for copy
+		const selectedShape = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
+		// add item with selected shape's values
+		addShape(shapeEditor, selectedShape);
+		// update shapes in display window
+		renderShapes(shapeEditor["shapes"]);
+		// update shapes info section
+		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
+	});
 
-	const addShape = function(object){
+	const addShape = function(shapeEditor, shapeValue){
 
 		// create unique id for shape identification within program
 		const shapeID = uniqueID();
 
-		object["shapes"].push({
+		shapeEditor["shapes"].push({
 			id: shapeID,
-	        name: getShapeName(),
+	        name:  getShapeName(shapeValue["name"]),
 	        checkbox: true,
-	        scaleX: "33",
-	        scaleY: "33",
-	        transX: "33",
-	        transY: "33",
-	        rotate: "0",
-	        radius: "0"
+	        scaleX: `${shapeValue["scaleX"]}`,
+	        scaleY: `${shapeValue["scaleY"]}`,
+	        transX: `${shapeValue["transX"]}`,
+	        transY: `${shapeValue["transY"]}`,
+	        rotate: `${shapeValue["rotate"]}`,
+	        radius: `${shapeValue["radius"]}`,
+	        color: `${shapeValue["color"]}`
 		});
 
 		// set newly created shape id to selected.id
-		object["selected"]["id"] = shapeID;
+		shapeEditor["selected"]["id"] = shapeID;
 		setSelectedCheckbox(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
 	};
 
@@ -96,11 +121,12 @@ $(document).ready(function(){
 	};
 
 	// Assign name to newly created shape
-	const getShapeName = function(){
+	const getShapeName = function(defaultName){
 
-		const $shapeName = $("#shapeName").val();
+		const $shapeName = $("#shapeName").val()
+		console.log(defaultName);
 		// check for user specified name, if false use generic
-    	return $shapeName != "" ? $shapeName : "New Shape";
+    	return $shapeName != "" ? $shapeName : defaultName;
 	};
 
 	// Allow only one checkbox to show true at a time
@@ -129,7 +155,7 @@ $(document).ready(function(){
 		shapes.forEach(function(shape){
 
 			$("<div/>")
-			.css("background-color", "blue")
+			.css("background-color", `${shape["color"]}`)
 			.css("width", `${shape["scaleX"]}%`)
 			.css("height", `${shape["scaleY"]}%`)
 			.css("transform", `${shape["rotate"]}`)
@@ -174,12 +200,12 @@ $(document).ready(function(){
 	    return Math.floor(Math.random() * (max - min) + min);
 	};
 
-	// Returns unique 16 character string, used for shape ID
+	// Returns unique 16 character string
 	const uniqueID = function(){
 
 	    const numArray = [];
 	    const charGroups = [];
-
+	    // create 16 random numbers based on random number generated at beginning of each loop, push to numArray
 	    for(a = 0; a < 16; a++){
 	        const newNum = randomNum(1, 4);
 
@@ -194,11 +220,11 @@ $(document).ready(function(){
 	            numArray.push(randomNum(97, 122));
 	        }
 	    };
-
+	    // create characters out of numbers from numArray
 	    const charArray = numArray.map(function(num){
 	        return String.fromCharCode(num);
 	    });
-
+	    // join into 4 group of 4 character long
 	    for(i = 0; i < 4; i++){
 	        charGroups.push([charArray.join("").slice((i * 4), (i * 4 + 4))]);
 	    };
