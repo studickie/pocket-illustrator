@@ -16,40 +16,40 @@ $(document).ready(function(){
 		dpad:[{
 			trans: "transX",
 			operator: function(a, b, selected){
-				if(selected.transX < 99){
+				if(selected < 99){
 					return a + b;
 				} else {
-					return selected.transX = 99;
+					return 99;
 				};
 			},
 			id: "buttonRight"
 		},{
 			trans: "transX",
 			operator: function(a, b, selected){
-				if(selected.transX > 0){
+				if(selected > 0){
 					return a - b;
 				} else {
-					return selected.transX = 0;
+					return 0;
 				};
 			},
 			id: "buttonLeft"
 		},{
 			trans: "transY",
 			operator: function(a, b, selected){
-				if(selected.transY > 1){
+				if(selected > 1){
 					return a - b;
 				} else {
-					return selected.transY = 1;
+					return 1;
 				};
 			},
 			id: "buttonUp"
 		},{
 			trans: "transY",
 			operator: function(a, b, selected){
-				if(selected.transY < 99){
+				if(selected < 99){
 					return a + b;
 				} else {
-					return selected.transY = 99;
+					return 99;
 				};
 			},
 			id: "buttonDown"
@@ -60,7 +60,7 @@ $(document).ready(function(){
 				if(selected.scaleX > 1){
 					return a - b;
 				} else {
-					return selected.scaleX = 1;
+					return 1;
 				};
 			},
 			id: "scale_xDown"
@@ -70,7 +70,7 @@ $(document).ready(function(){
 				if(selected.scaleX < 100){
 					return a + b;
 				} else {
-					return selected.scaleX = 100;
+					return 100;
 				};
 			},
 			id: "scale_xUp"
@@ -80,7 +80,7 @@ $(document).ready(function(){
 				if(selected.scaleY > 1){
 					return a - b;
 				} else {
-					return selected.scaleY = 1;
+					return 1;
 				};
 			},
 			id: "scale_yDown"
@@ -90,7 +90,7 @@ $(document).ready(function(){
 				if(selected.scaleY < 100){
 					return a + b;
 				} else {
-					return selected.scaleY = 100;
+					return 100;
 				};
 			},
 			id: "scale_yUp"
@@ -179,7 +179,7 @@ $(document).ready(function(){
 			return item["id"] === $button;
 		});
 		// update translate value of selected shape
-		selected[move["trans"]] = move.operator(selected[move["trans"]], 3, selected);
+		selected[move["trans"]] = move.operator(selected[move["trans"]], 3, selected[move["trans"]]);
 		// Render shapes in display window
 		renderShapes(shapeEditor["shapes"]);
 
@@ -346,7 +346,6 @@ $(document).ready(function(){
 	    // return 16 digit unique ID
 	    return `${charGroups[0]}-${charGroups[1]}-${charGroups[2]}-${charGroups[3]}`;
 	};
-
 
 
 }); // END document ready
