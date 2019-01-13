@@ -108,7 +108,7 @@ $(document).ready(function(){
 		},
 	};
 	
-	// add object to shape array
+	// add shaoe to display window
 	$("#addShape").on("click",function(){
 		// add new shape to shapes array
 		addShape(shapeEditor, shapeEditor["shapeDefault"]);
@@ -120,7 +120,7 @@ $(document).ready(function(){
 		$("#shapeName").val("");
 	});
 
-	// removes an object from shape array
+	// remove shape from display window
 	$("#removeShape").on("click", function(){
 		// remove shape from shapes array
 		removeShape(shapeEditor["shapes"], shapeEditor["selected"])
@@ -128,23 +128,10 @@ $(document).ready(function(){
 		renderShapes(shapeEditor["shapes"]);
 		// update shapes info section
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
-		// re-assign checkbox true to object ahead of removes object
+		// re-assign checkbox true to another object if object is not last
 	});
 
-	// event listener for info window checkbox selection
-	$("#infoWindow").on("mousedown", "input", function(){
-		// get id from selected checkbox
-		const $clicked = $(this).attr("id");
-		// set selected shape
-		const selectedShape = getSelectedShape(shapeEditor["shapes"], $clicked);
-		shapeEditor["selected"]["id"] = selectedShape["id"];
-		// set checkbox value of selected shape
-		setSelectedCheckbox(shapeEditor["shapes"], $clicked);
-		// update shape info section
-		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
-	});
-
-	// copy and add an object
+	// copy and add a shape
 	$("#copyShape").on("click", function(){
 		// get item selected for copy
 		const selectedShape = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
@@ -153,6 +140,19 @@ $(document).ready(function(){
 		// update shapes in display window
 		renderShapes(shapeEditor["shapes"]);
 		// update shapes info section
+		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
+	});
+
+	// set selected shape to checkbox selection
+	$("#infoWindow").on("mousedown", "input", function(){
+		// get id from selected checkbox
+		const $clicked = $(this).attr("id");
+		// set selected shape
+		const selectedShape = getSelectedShape(shapeEditor["shapes"], $clicked);
+		shapeEditor["selected"]["id"] = selectedShape["id"];
+		// set checkbox value of selected shape
+		setSelectedCheckbox(shapeEditor["shapes"], $clicked);
+		// render info section with updated checkbox data
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
 	});
 
@@ -176,7 +176,7 @@ $(document).ready(function(){
 		const move = shapeEditor["dpad"].find(function(item){
 			return item["id"] === $button;
 		});
-		// manipulte location of selected shape
+		// update translate value of selected shape
 		selected[move["trans"]] = move.operator(selected[move["trans"]], 3, selected);
 		// Render shapes in display window
 		renderShapes(shapeEditor["shapes"]);
@@ -193,7 +193,7 @@ $(document).ready(function(){
 		const size = shapeEditor["scaleBtn"].find(function(item){
 			return item["id"] === $button;
 		});
-		// manipulate size of selected shape
+		// update size value of selected shape
 		selected[size["scale"]] = size.operator(selected[size["scale"]], 3, selected);
 		// render shapes in display window
 		renderShapes(shapeEditor["shapes"]);
@@ -203,7 +203,7 @@ $(document).ready(function(){
 
 		// create unique id for shape identification within program
 		const shapeID = uniqueID();
-
+		// push new shape object object to shapes array
 		shapeEditor["shapes"].push({
 			id: shapeID,
 	        name:  getShapeName(shapeValue["name"]),
