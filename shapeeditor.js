@@ -1,10 +1,3 @@
-/* LEFT TO DO
-
-- pop-up on load with quick blurb
-- furhter styling
-*/
-
-
 $(document).ready(function(){
 
 	// chose an object to hold all values
@@ -143,6 +136,23 @@ $(document).ready(function(){
 		setValuesToShape();
 		// clear input text field	
 		$("#shapeName").val("");
+	});
+
+	// add shape on enter keypress
+	$(document).on("keypress", function(){
+		// determine which key has been pressed
+		if(event.which === 13){
+			// add new shape to shapes array
+			addShape(shapeEditor, shapeEditor["shapeDefault"]);
+			// update shapes in display window
+			renderShapes(shapeEditor["shapes"]);
+			// update shapes info section
+			renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
+			// set knob values, color to new shape
+			setValuesToShape();
+			// clear input text field	
+			$("#shapeName").val("");
+		};
 	});
 
 	// remove shape from display window
