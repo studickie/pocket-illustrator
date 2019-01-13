@@ -118,26 +118,32 @@ body{
    	top: 50%;
 }
 
-.buttonUp{
+#buttonUp{
 	transform: rotate(180deg);
+}
+
+.buttonUp{
 	left: 33.5%;
 	box-shadow: -0.2em -0.2em 0.5em  #22222260;
 }
 
-.buttonUp:hover{
+.buttonUp_pressed{
 	top: 0.5%;
 	left: 34%;
 	box-shadow: -0.25em -0.5em 1em  #22222270;
 }
 
-.buttonRight{
+#buttonRight{
 	transform: rotate(-90deg);
+}
+
+.buttonRight{
 	left: 67%;
 	top: 33.5%;
 	box-shadow: -0.2em 0.2em 0.5em  #22222260;
 }
 
-.buttonRight:hover{
+.buttonRight_pressed{
 	left: 67.5%;
 	top: 34%;
 	box-shadow: -0.25em 0.5em 1em  #22222270;
@@ -149,20 +155,23 @@ body{
 	box-shadow: 0.2em 0.2em 0.5em  #22222260;
 }
 
-.buttonDown:hover{
+.buttonDown_pressed{
 	left: 34%;
 	top: 67.5%;
 	box-shadow: 0.25em 0.5em 1em  #22222270;
 }
 
-.buttonLeft{
+#buttonLeft{
 	transform: rotate(90deg);
+}
+
+.buttonLeft{
 	left: 0%;
 	top: 33.5%;
 	box-shadow: 0.2em -0.2em 0.5em  #22222260;
 }
 
-.buttonLeft:hover{
+.buttonLeft_pressed{
 	left: 0.5%;
 	top: 34%;
 	box-shadow: 0.25em -0.5em 1em  #22222270;
@@ -279,7 +288,7 @@ body{
 	top: 35%;
 }
 
-.scale_xDown:hover{
+.scale_xDown_pressed{
 	left: 0.5%;
 	top: 36%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,
@@ -291,7 +300,7 @@ body{
 	top: 5%;
 }
 
-.scale_yDown:hover{
+.scale_yDown_pressed{
 	left: 36%;
 	top: 5.5%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,
@@ -303,7 +312,7 @@ body{
 	top: 65%;
 }
 
-.scale_yUp:hover{
+.scale_yUp_pressed{
 	left: 36%;
 	top: 65.5%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,
@@ -315,7 +324,7 @@ body{
 	top: 35%;
 }
 
-.scale_xUp:hover{
+.scale_xUp_pressed{
 	left: 68.5%;
 	top: 36%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,

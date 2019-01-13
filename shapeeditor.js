@@ -1,3 +1,10 @@
+/* LEFT TO DO
+
+- pop-up on load with quick blurb
+- furhter styling
+*/
+
+
 $(document).ready(function(){
 
 	// chose an object to hold all values
@@ -5,96 +12,112 @@ $(document).ready(function(){
 		selected: {
 			id: ""
 		},
-		knobs:{
-			rotate:{
-
-			},
-			radius:{
-
+		knobs:[{
+				id: "rotate",
+				active: false,
+				outputValue: 0,
+				currentY: 0,
+				maxMin: 135
+			},{
+				id: "radius",
+				active: false,
+				outputValue: 0,
+				currentY: 0,
+				maxMin: 50
 			}
-		},
+		],
 		dpad:[{
-			trans: "transX",
-			operator: function(a, b, selected){
-				if(selected < 99){
-					return a + b;
-				} else {
-					return 99;
-				};
-			},
-			id: "buttonRight"
-		},{
-			trans: "transX",
-			operator: function(a, b, selected){
-				if(selected > 0){
-					return a - b;
-				} else {
-					return 0;
-				};
-			},
-			id: "buttonLeft"
-		},{
-			trans: "transY",
-			operator: function(a, b, selected){
-				if(selected > 1){
-					return a - b;
-				} else {
-					return 1;
-				};
-			},
-			id: "buttonUp"
-		},{
-			trans: "transY",
-			operator: function(a, b, selected){
-				if(selected < 99){
-					return a + b;
-				} else {
-					return 99;
-				};
-			},
-			id: "buttonDown"
-		}],
+				trans: "transX",
+				operator: function(a, b, selected){
+					if(selected < 99){
+						return a + b;
+					} else {
+						return 99;
+					};
+				},
+				id: "buttonRight",
+				pressed: "buttonRight_pressed"
+			},{
+				trans: "transX",
+				operator: function(a, b, selected){
+					if(selected > 0){
+						return a - b;
+					} else {
+						return 0;
+					};
+				},
+				id: "buttonLeft",
+				pressed: "buttonLeft_pressed"
+			},{
+				trans: "transY",
+				operator: function(a, b, selected){
+					if(selected > 1){
+						return a - b;
+					} else {
+						return 1;
+					};
+				},
+				id: "buttonUp",
+				pressed: "buttonUp_pressed"
+			},{
+				trans: "transY",
+				operator: function(a, b, selected){
+					if(selected < 99){
+						return a + b;
+					} else {
+						return 99;
+					};
+				},
+				id: "buttonDown",
+				pressed: "buttonDown_pressed"
+			}
+		],
 		scaleBtn:[{
-			scale: "scaleX",
-			operator: function(a, b, selected){
-				if(selected.scaleX > 1){
-					return a - b;
-				} else {
-					return 1;
-				};
-			},
-			id: "scale_xDown"
-		},{
-			scale: "scaleX",
-			operator: function(a, b, selected){
-				if(selected.scaleX < 100){
-					return a + b;
-				} else {
-					return 100;
-				};
-			},
-			id: "scale_xUp"
-		},{
-			scale: "scaleY",
-			operator: function(a, b, selected){
-				if(selected.scaleY > 1){
-					return a - b;
-				} else {
-					return 1;
-				};
-			},
-			id: "scale_yDown"
-		},{
-			scale: "scaleY",
-			operator: function(a, b, selected){
-				if(selected.scaleY < 100){
-					return a + b;
-				} else {
-					return 100;
-				};
-			},
-			id: "scale_yUp"
-		}],
+				scale: "scaleX",
+				operator: function(a, b, selected){
+					if(selected.scaleX > 1){
+						return a - b;
+					} else {
+						return 1;
+					};
+				},
+				id: "scale_xDown",
+				pressed: "scale_xDown_pressed"
+			},{
+				scale: "scaleX",
+				operator: function(a, b, selected){
+					if(selected.scaleX < 100){
+						return a + b;
+					} else {
+						return 100;
+					};
+				},
+				id: "scale_xUp",
+				pressed: "scale_xUp_pressed"
+			},{
+				scale: "scaleY",
+				operator: function(a, b, selected){
+					if(selected.scaleY > 1){
+						return a - b;
+					} else {
+						return 1;
+					};
+				},
+				id: "scale_yDown",
+				pressed: "scale_yDown_pressed"
+			},{
+				scale: "scaleY",
+				operator: function(a, b, selected){
+					if(selected.scaleY < 100){
+						return a + b;
+					} else {
+						return 100;
+					};
+				},
+				id: "scale_yUp",
+				pressed: "scale_yUp_pressed"
+			}
+		],
 		shapes: [],
 		shapeDefault: {
 			name: "New Shape",
@@ -103,8 +126,8 @@ $(document).ready(function(){
 	        transX: 33,
 	        transY: 33,
 	        rotate: 0,
-	        radius: 0,
-	        color: "#00F",
+	        radius: -135,
+	        color: "#0000FF",
 		},
 	};
 	
@@ -116,7 +139,9 @@ $(document).ready(function(){
 		renderShapes(shapeEditor["shapes"]);
 		// update shapes info section
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
-		// clear input text field
+		// set knob values, color to new shape
+		setValuesToShape();
+		// clear input text field	
 		$("#shapeName").val("");
 	});
 
@@ -124,11 +149,15 @@ $(document).ready(function(){
 	$("#removeShape").on("click", function(){
 		// remove shape from shapes array
 		removeShape(shapeEditor["shapes"], shapeEditor["selected"])
+		// re-assign checkbox true to another object if object is not last
+		reassignCheckbox();
+		// values of newly selected shape to knobs, color
+		const selectedShape = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
+		setValuesToShape(selectedShape);
 		// update shapes in display window
 		renderShapes(shapeEditor["shapes"]);
 		// update shapes info section
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
-		// re-assign checkbox true to another object if object is not last
 	});
 
 	// copy and add a shape
@@ -141,6 +170,8 @@ $(document).ready(function(){
 		renderShapes(shapeEditor["shapes"]);
 		// update shapes info section
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
+		// set knob values, color to current shape
+		setValuesToShape(selectedShape);
 		// clear input text field
 		$("#shapeName").val("");
 	});
@@ -156,6 +187,8 @@ $(document).ready(function(){
 		setSelectedCheckbox(shapeEditor["shapes"], $clicked);
 		// render info section with updated checkbox data
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
+		// set knob values, color to current shape
+		setValuesToShape(selectedShape);
 	});
 
 	// change color of selected shape
@@ -168,44 +201,90 @@ $(document).ready(function(){
 		renderShapes(shapeEditor["shapes"]);
 	});
 
-	// change position of selected shape
-	$(".dpad_button").on("click", function(){
+	// change position of selected shape, css of button
+	$(".dpad_button").on("mousedown", function(){
 		// get selected shape
 		const selected = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
-		// get button id
-		const $button = `${$(this).attr("id")}`
+		// get selected button by id
+		const $buttonID = `${$(this).attr("id")}`
 		// get translate button object
-		const move = shapeEditor["dpad"].find(function(item){
-			return item["id"] === $button;
-		});
+		const button = getSelectedObject(shapeEditor["dpad"], $buttonID);
+		// set button class toggle for graphic change
+		$(this).toggleClass($buttonID).toggleClass(`${button["pressed"]}`);
 		// update translate value of selected shape
-		selected[move["trans"]] = move.operator(selected[move["trans"]], 3, selected[move["trans"]]);
+		selected[button["trans"]] = button.operator(selected[button["trans"]], 3, selected[button["trans"]]);
 		// Render shapes in display window
 		renderShapes(shapeEditor["shapes"]);
 
 	});
 
-	// change scale of selected shape
-	$(".circleBtn_cap").on("click", function(){
+	// change css of button
+	$(".dpad_button").on("mouseup", function(){
+		// get selected button by id
+		const $buttonID = `${$(this).attr("id")}`
+		// get translate button object
+		const button = getSelectedObject(shapeEditor["dpad"], $buttonID);
+		// set button class toggle for graphic change
+		$(this).toggleClass($buttonID).toggleClass(`${button["pressed"]}`)
+	});
+
+	// change scale of selected shape, css of button
+	$(".circleBtn_cap").on("mousedown", function(){
 		// get selected shape
 		const selected = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
-		// get button id
-		const $button = `${$(this).attr("id")}`;
+		// get selected button by id
+		const $buttonID = `${$(this).attr("id")}`;
 		// get scale button object
-		const size = shapeEditor["scaleBtn"].find(function(item){
-			return item["id"] === $button;
-		});
+		const button = getSelectedObject(shapeEditor["scaleBtn"], $buttonID);
+		// set button class toggle for graphic change
+		$(this).toggleClass($buttonID).toggleClass(`${button["pressed"]}`)
 		// update size value of selected shape
-		selected[size["scale"]] = size.operator(selected[size["scale"]], 3, selected);
+		selected[button["scale"]] = button.operator(selected[button["scale"]], 3, selected);
 		// render shapes in display window
 		renderShapes(shapeEditor["shapes"]);
 	});
 
+	// change css of button
+	$(".circleBtn_cap").on("mouseup", function(){
+		// get selected button by id
+		const $buttonID = `${$(this).attr("id")}`;
+		// get scale button object
+		const button = getSelectedObject(shapeEditor["scaleBtn"], $buttonID);
+		// set button class toggle for graphic change
+		$(this).toggleClass($buttonID).toggleClass(`${button["pressed"]}`)
+	})
+
+	// change rotation and radius values of selected shape --> 3-tiered event
+	// mousedown event handler, wait for click portion of click-and-drg
+	$(".knob_cap").on("mousedown", function(){
+		// get selected knob id
+		const $knobID = `${$(this).attr("id")}`;
+		// get selected knob object by id
+		const knob = getSelectedObject(shapeEditor["knobs"], $knobID)
+		// set selected knob to active true
+		knob["active"] = true;
+	});
+
+	// mousemove handler for drag portion of knob click-and-drag
+	$(document).on("mousemove", function(event){
+		// prevent mouse click-and-drag default selection action
+		event.preventDefault()
+		// run lots of code
+		dragKnob();
+	});
+
+	// mouseup handler for end portion of knob functionality
+	$(document).on("mouseup", function(){
+		// set knobs' active to false
+		shapeEditor["knobs"].forEach(item => item["active"] = false)
+	});
+
+	// add shape from default values or copied shape values
 	const addShape = function(shapeEditor, shapeValue){
 
 		// create unique id for shape identification within program
 		const shapeID = uniqueID();
-		// push new shape object object to shapes array
+		// push new shape object to shapes array
 		shapeEditor["shapes"].push({
 			id: shapeID,
 	        name:  getShapeName(shapeValue["name"]),
@@ -252,12 +331,39 @@ $(document).ready(function(){
 		});
 	};
 
-	// returns selected shape
+	// reassign checkbox to last shape in array after shape removed
+	const reassignCheckbox = function(){
+
+		const length = shapeEditor["shapes"].length
+
+		if(length > 0){
+			shapeEditor["shapes"][length - 1]["checkbox"] = true;
+			shapeEditor["selected"]["id"] = shapeEditor["shapes"][length - 1]["id"]
+		};
+	};
+
+	// returns shape object matching selected id
 	const getSelectedShape = function(shapes, selected){
-		// find shape id that matches selected shape id, return object to caller
-		return shapes.find(function(shape){
-			return shape.id === selected;
+		
+		return shapes.find(shape => shape.id === selected);
+	};
+
+	// returns object matching selected html element
+	// ---> find a way to further abscure, combine with above function? DRY...
+	const getSelectedObject = function(array, selectedEl){
+
+		return array.find(item => item["id"] === selectedEl);
+	};
+
+	// 
+	const setValuesToShape = function(selected = shapeEditor["shapeDefault"]){
+		// set knob values to match selected shape
+		shapeEditor["knobs"].forEach(function(knob){
+			$(`#${knob["id"]}`).css("transform", `rotate(${selected[`${knob["id"]}`]}deg)`)
+			knob["outputValue"] = selected[`${knob["id"]}`];
 		});
+		// set color value to match shape
+		$("#shapeColor").val(`${selected["color"]}`);
 	};
 
 	// Render shapes in display window
@@ -266,20 +372,26 @@ $(document).ready(function(){
 		const $displayWindow = $("#displayWindow")
 		// clear displayWindow children
 		$displayWindow.empty();
-		// create div with object values for each object in shapes array, append to display window
-		shapes.forEach(function(shape){
+		// generate shape for each object in shapes array
+		generateShapes(shapes, $displayWindow);
+	};
 
+	// generate shapes 
+	const generateShapes = function(shapes, display){
+
+		shapes.forEach(function(shape){
+			// create div for each shape with shape properties
 			$("<div/>")
 			.css("background-color", `${shape["color"]}`)
 			.css("width", `${shape["scaleX"]}%`)
 			.css("height", `${shape["scaleY"]}%`)
 			.css("transform", `rotate(${shape["rotate"]}deg)`)
-			.css("border-radius", `${shape["radius"]}`)
+			.css("border-radius", `${shape["radius"]}%`)
 			.css("left", `${shape["transX"]}%`)
 			.css("top", `${shape["transY"]}%`)
 			.css("position", "absolute")
-
-			.appendTo($displayWindow);
+			// append to display
+			.appendTo(display);
 		});
 	};
 
@@ -289,7 +401,12 @@ $(document).ready(function(){
 		const $infoWindow = $("#infoWindow");
 		// clear info window children
 		$infoWindow.empty();
-		// create div with for shape data
+		// generate text info for each object in shape array
+		generateShapeInfo(shapes, $infoWindow);
+	};
+
+	const generateShapeInfo = function(shapes, display){
+
 		shapes.forEach(function(shape, index){
 			// create parent element
 	        const $infoEl = $("<div/>");
@@ -305,8 +422,37 @@ $(document).ready(function(){
 	        const $nameEl = $("<span/>").text(` ${shape["name"]}`);
 	        $nameEl.appendTo($infoEl);
 	        // append div to info window
-	       	$infoEl.appendTo($infoWindow);
+	       	$infoEl.appendTo(display);
 	    });
+	};
+
+	const dragKnob = function(){
+		
+		const rotate = shapeEditor["knobs"][0]["active"]
+		const radius = shapeEditor["knobs"][1]["active"]
+		// event fires if true
+		if(rotate || radius){
+			// get selected shape
+			const selected = getSelectedShape(shapeEditor["shapes"], shapeEditor["selected"]["id"]);
+			// get selected knob object based on active value
+			const knob = shapeEditor["knobs"].find(item => item["active"] === true);
+
+			// set rotation and value parameters
+			if(event.clientY - knob["currentY"] > 0 && knob["outputValue"] > -knob["maxMin"]){
+				knob["outputValue"] -= 5;
+			} else if(event.clientY - knob["currentY"] < 0 && knob["outputValue"] < knob["maxMin"]){
+				knob["outputValue"] += 5;
+			} 
+
+			// update reference value
+			knob["currentY"] = event.clientY;
+			// set css transform rotation to html element
+			$(`#${knob["id"]}`).css("transform", `rotate(${knob.outputValue}deg)`);
+			// apply knob value to shape
+			selected[`${knob["id"]}`] = knob["outputValue"];
+			// render shapes in display window
+			renderShapes(shapeEditor["shapes"]);
+		};
 	};
 
 	// Produces random number between caller specific values
@@ -339,7 +485,7 @@ $(document).ready(function(){
 	    const charArray = numArray.map(function(num){
 	        return String.fromCharCode(num);
 	    });
-	    // join into 4 group of 4 character long
+	    // join into 4 groups, 4 characters long
 	    for(i = 0; i < 4; i++){
 	        charGroups.push([charArray.join("").slice((i * 4), (i * 4 + 4))]);
 	    };
@@ -349,57 +495,3 @@ $(document).ready(function(){
 
 
 }); // END document ready
-
-/*
-const knob_rotate = document.querySelector(".knob_cap");
-
-		const knob = {
-			name: "rotate",
-			active: false,
-			outputValue: 0,
-			currentY: 0,
-			currentX: 0
-		};
-
-		// Sets intital Y value of click, sets active to true
-		const dragStart = function(){
-
-			if(event.target === knob_rotate){
-				knob.active = true;
-			};
-		};
-
-		// Only fires if active is set to true
-		const drag = function(){
-
-			if(knob.active === true){
-
-				if(event.clientY - knob.currentY > 0 && knob.outputValue > -135){
-					knob.outputValue -= 5;
-				} else if(event.clientY - knob.currentY < 0 && knob.outputValue < 135){
-					knob.outputValue += 5;
-				} 
-				knob.currentY = event.clientY;
-			};
-
-			rotateKnob();
-		};
-
-		// Saves final value of drag, sets active to false
-		const dragEnd = function(){
-
-			knob.active = false
-		};
-
-		// Sets knob to rotate based on current value
-		const rotateKnob = function(){
-
-			knob_rotate.style.transform = `rotate(${knob.outputValue}deg)`;
-		};
-
-		knob_rotate.addEventListener("mousedown", dragStart);
-
-		document.addEventListener("mouseup", dragEnd);
-
-		document.addEventListener("mousemove", drag);
-		*/
