@@ -286,36 +286,36 @@ body{
 				0.25em 0.5em 1em  #22222270;
 }
 
-.scale_xUp{
+.scale_yDown{
 	left: 35%;
 	top: 5%;
 }
 
-.scale_xUp:hover{
+.scale_yDown:hover{
 	left: 36%;
 	top: 5.5%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,
 				0.25em 0.5em 1em  #22222270;
 }
 
-.scale_yDown{
+.scale_yUp{
 	left: 35%;
 	top: 65%;
 }
 
-.scale_yDown:hover{
+.scale_yUp:hover{
 	left: 36%;
 	top: 65.5%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,
 				0.25em 0.5em 1em  #22222270;
 }
 
-.scale_yUp{
+.scale_xUp{
 	left: 68%;
 	top: 35%;
 }
 
-.scale_yUp:hover{
+.scale_xUp:hover{
 	left: 68.5%;
 	top: 36%;
 	box-shadow: 0.12em 0.25em 0 0.05em #171717,

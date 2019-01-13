@@ -141,6 +141,8 @@ $(document).ready(function(){
 		renderShapes(shapeEditor["shapes"]);
 		// update shapes info section
 		renderShapeInfo(shapeEditor["shapes"], shapeEditor["selected"]);
+		// clear input text field
+		$("#shapeName").val("");
 	});
 
 	// set selected shape to checkbox selection
@@ -285,24 +287,24 @@ $(document).ready(function(){
 	const renderShapeInfo = function(shapes, selected){
 
 		const $infoWindow = $("#infoWindow");
-		// clear infoWindow children
+		// clear info window children
 		$infoWindow.empty();
-		// create div with children elements, checkbox, index, title, append to infoWindow
+		// create div with for shape data
 		shapes.forEach(function(shape, index){
-
+			// create parent element
 	        const $infoEl = $("<div/>");
-
+	        // create checkbox element based on shape checked status, append to div
 	        const $checkbox = $("<input/>").attr("type", "checkbox")
 	        					.prop("checked", shape["checkbox"])
 	        					.attr("id", shape["id"]);
 	        $checkbox.appendTo($infoEl);
-
+	        // create span element for shape index, append to div
 	        const $indexEl = $("<span/>").text(`${index + 1 }.`);
 	        $indexEl.appendTo($infoEl);
-
+	        // create span element for shape name, append to div
 	        const $nameEl = $("<span/>").text(` ${shape["name"]}`);
 	        $nameEl.appendTo($infoEl);
-
+	        // append div to info window
 	       	$infoEl.appendTo($infoWindow);
 	    });
 	};
@@ -318,10 +320,10 @@ $(document).ready(function(){
 
 	    const numArray = [];
 	    const charGroups = [];
-	    // create 16 random numbers based on random number generated at beginning of each loop, push to numArray
+	    // create 16 random numbers
 	    for(a = 0; a < 16; a++){
 	        const newNum = randomNum(1, 4);
-
+	        // generate values based off random number generated at start of each loop
 	        if(newNum === 1){
 	            // A - Z
 	            numArray.push(randomNum(65, 90));
@@ -333,7 +335,7 @@ $(document).ready(function(){
 	            numArray.push(randomNum(97, 122));
 	        }
 	    };
-	    // create characters out of numbers from numArray
+	    // create characters from numbers in numArray
 	    const charArray = numArray.map(function(num){
 	        return String.fromCharCode(num);
 	    });
@@ -341,7 +343,7 @@ $(document).ready(function(){
 	    for(i = 0; i < 4; i++){
 	        charGroups.push([charArray.join("").slice((i * 4), (i * 4 + 4))]);
 	    };
-
+	    // return 16 digit unique ID
 	    return `${charGroups[0]}-${charGroups[1]}-${charGroups[2]}-${charGroups[3]}`;
 	};
 
