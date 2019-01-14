@@ -6,6 +6,31 @@ body{
     justify-content: center;
 }
 
+.noteContainer{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	width: 25%;
+	height: auto;
+	background-color: #FFEE90;
+	padding: 1em;
+	border: 0.25em solid #817C62;
+	border-radius: 2.5%;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: start;
+}
+
+#noteClose{
+	align-self: flex-end;
+}
+
+#noteClose:hover{
+	background-color: #DDDDDD60;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
 .shapeEditor_container{
 	width: 33em;
 	height: 50em;
@@ -95,6 +120,11 @@ body{
     position: absolute;
     left: 0;
     top: -13px;
+}
+
+.dpad_button:hover, .shapeMaster_button:hover, 
+.circleBtn_cap:hover, #shapeColor:hover{
+	cursor: pointer;
 }
 
 .dpad_buttonInner{

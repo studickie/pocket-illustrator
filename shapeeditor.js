@@ -289,6 +289,10 @@ $(document).ready(function(){
 		shapeEditor["knobs"].forEach(item => item["active"] = false)
 	});
 
+	$("#noteClose").on("click", function(){
+		$(".noteContainer").css("display", "none");
+	});
+
 	// add shape from default values or copied shape values
 	const addShape = function(shapeEditor, shapeValue){
 
