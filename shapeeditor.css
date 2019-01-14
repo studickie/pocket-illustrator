@@ -5,7 +5,7 @@ body{
     display: flex;
     justify-content: center;
 }
-
+/*
 .noteContainer{
 	position: absolute;
 	left: 5%;
@@ -30,7 +30,7 @@ body{
 	border-radius: 50%;
 	cursor: pointer;
 }
-
+*/
 .shapeEditor_container{
 	width: 33em;
 	height: 50em;
