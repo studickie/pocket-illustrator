@@ -3,22 +3,8 @@ body{
 	padding: 0;
 	box-sizing: border-box;
     display: flex;
-    justify-content: center;
-}
-/*
-.noteContainer{
-	position: absolute;
-	left: 5%;
-	top: 5%;
-	width: 25%;
-	height: auto;
-	background-color: #FFEE90;
-	padding: 1em;
-	border: 0.25em solid #817C62;
-	border-radius: 2.5%;
-	display: flex;
-	flex-flow: column nowrap;
-	justify-content: start;
+	justify-content: center;
+	background-image: url("retina_wood/retina_wood.png");
 }
 
 #noteClose{
@@ -30,7 +16,7 @@ body{
 	border-radius: 50%;
 	cursor: pointer;
 }
-*/
+
 .shapeEditor_container{
 	width: 33em;
 	height: 50em;
@@ -111,9 +97,9 @@ body{
 }
 
 .dpad_button:before{
-	border-bottom: 0.8em solid #080808;
-	border-right: 0.8em solid transparent;
-	border-left: 0.8em solid transparent;
+	border-bottom: 0.83em solid #080808;
+	border-right: 0.83em solid transparent;
+	border-left: 0.83em solid transparent;
 	content: "";
     width: 33%;
     height: 0;

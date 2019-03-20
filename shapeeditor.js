@@ -280,7 +280,7 @@ $(document).ready(function(){
 		// prevent mouse click-and-drag default selection action
 		event.preventDefault()
 		// run lots of code
-		dragKnob();
+		dragKnob(event);
 	});
 
 	// mouseup handler for end portion of knob functionality
@@ -441,7 +441,7 @@ $(document).ready(function(){
 	    });
 	};
 
-	const dragKnob = function(){
+	const dragKnob = function(event){
 		
 		const rotate = shapeEditor["knobs"][0]["active"]
 		const radius = shapeEditor["knobs"][1]["active"]
